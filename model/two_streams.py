@@ -5,15 +5,10 @@ import numpy as np
 np.random.seed(1000)
 
 
-def create_model():
+def two_streams():
     # global constants
     NB_CLASS = 444  # number of classes
-    LEARNING_RATE = 0.01
-    MOMENTUM = 0.9
-    GAMMA = 0.1
     DROPOUT = 0.5
-    WEIGHT_DECAY = 0.0005  # L2 regularization factor
-    USE_BN = True  # whether to use batch normalization
     DIM_ORDERING = 'th'
 
     # Define image input layer
