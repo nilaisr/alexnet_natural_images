@@ -4,7 +4,7 @@ from os.path import isfile, join
 
 def create_gt():
     dataset = 'home/cic/datasets/ImageNet/'
-    save_folder = '../dataset/'
+    save_folder = '/home/nsallent/alexnet_natural_images/dataset/'
 
     for folder in listdir(dataset + 'train/'):
         images = [f for f in listdir(folder) if isfile(join(folder, f))]
