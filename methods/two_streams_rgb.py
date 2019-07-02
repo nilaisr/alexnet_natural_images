@@ -10,6 +10,7 @@ from model import two_streams
 def two_streams_rgb():
     dataset = 'home/cic/datasets/ImageNet/'
     save_dir = 'home/nsallent/output/saved_models/'
+    model_name = 'two_streams_rgb'
 
     train_datagen = ImageDataGenerator(
         rescale=1. / 255,
@@ -19,16 +20,13 @@ def two_streams_rgb():
 
     test_datagen = ImageDataGenerator(rescale=1. / 255)
 
-    train_datagen.flow_from_directory(dataset + 'train/')
-    test_datagen.flow_from_directory(dataset + 'test/')
-
-    train_generator = train_datagen.flow_from_directory(
-        'data/train',
+    (x_train, y_train) = train_datagen.flow_from_directory(
+        dataset + 'train/',
         target_size=(227, 227),
         batch_size=32)
 
-    validation_generator = test_datagen.flow_from_directory(
-        'data/validation',
+    (x_test, y_test) = test_datagen.flow_from_directory(
+        dataset + 'test/',
         target_size=(227, 227),
         batch_size=32)
 
@@ -37,22 +35,20 @@ def two_streams_rgb():
     model = Model(input=im_input,
                   output=[x])
 
-    model.fit_generator(
-        train_generator,
-        steps_per_epoch=2000,
-        epochs=50,
-        validation_data=validation_generator,
-        validation_steps=800)
-
-    sgd = optimizers.SGD(lr=0.01, decay=0.0005, momentum=0.9)
-    model.compile(optimizer=sgd,
+    opt = optimizers.SGD(lr=0.01, decay=0.0005, momentum=0.9)
+    model.compile(optimizer=opt,
                   loss='categorical_crossentropy')
 
+    model.fit_generator(
+        (x_train, y_train),
+        steps_per_epoch=2000,
+        epochs=50,
+        validation_data=(x_test, y_test))
 
     # Save model and weights
     if not isdir(save_dir):
         makedirs(save_dir)
-    model_path = join(save_dir, )
+    model_path = join(save_dir, model_name)
     model.save(model_path)
     print('Saved trained model at %s ' % model_path)
 

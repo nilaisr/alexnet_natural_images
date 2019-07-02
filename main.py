@@ -14,12 +14,14 @@ def main():
     parser.add_argument('model', help='Model to execute', choices=models_refs.keys())
 
     args = parser.parse_args()
-    created_gt = args.create_gt
+    create_gt_bool = args.create_gt
 
-    if not created_gt:
+    if not create_gt_bool:
         create_gt()
 
     model = models_refs.get(args.model)
+
+    model()
 
 
 if __name__ == '__main__':
