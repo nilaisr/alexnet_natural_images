@@ -134,4 +134,4 @@ def two_streams():
     xy = Dense(output_dim=NB_CLASS,
                activation='softmax')(xy)
 
-    return xy, img_input, CONCAT_AXIS, INP_SHAPE, DIM_ORDERING
+    return xy, img_input, INP_SHAPE, DIM_ORDERING

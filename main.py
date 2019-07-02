@@ -7,12 +7,6 @@ models_refs = {
 }
 
 
-#LEARNING_RATE = 0.01
-#MOMENTUM = 0.9
-#GAMMA = 0.1
-#WEIGHT_DECAY = 0.0005  # L2 regularization factor
-#USE_BN = True  # whether to use batch normalization
-
 def main():
     parser = argparse.ArgumentParser(description='Classify images.')
 

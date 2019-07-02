@@ -7,7 +7,7 @@ from os import makedirs
 from model import two_streams
 
 
-def two_streams_rgb():
+def preprocess():
     dataset = 'home/cic/datasets/ImageNet/'
     save_dir = 'home/nsallent/output/saved_models/'
 
@@ -24,13 +24,15 @@ def two_streams_rgb():
 
     train_generator = train_datagen.flow_from_directory(
         'data/train',
-        target_size=(227, 227),
-        batch_size=32)
+        target_size=(150, 150),
+        batch_size=32,
+        class_mode='binary')
 
     validation_generator = test_datagen.flow_from_directory(
         'data/validation',
-        target_size=(227, 227),
-        batch_size=32)
+        target_size=(150, 150),
+        batch_size=32,
+        class_mode='binary')
 
     x, im_input, INP_SHAPE, DIM_ORDERING = two_streams()
 
