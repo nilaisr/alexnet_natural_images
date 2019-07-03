@@ -19,8 +19,8 @@ def two_streams_rgb():
 
     for folder in listdir(dataset):
         y_train_all = folder
-        x_train_all.append([cv2.imread(dataset+folder+'/'+im) for im in listdir(folder)])
-
+        print folder
+        x_train_all.append([cv2.imread(dataset + folder + '/' + im) for im in listdir(dataset + folder)])
 
     x_train = []
     y_train = []
@@ -37,7 +37,7 @@ def two_streams_rgb():
     for folder in listdir(dataset):
         y_test_all = folder
         print folder
-        x_test_all.append([cv2.imread(dataset + folder + '/' + im) for im in listdir(dataset+folder)])
+        x_test_all.append([cv2.imread(dataset + folder + '/' + im) for im in listdir(dataset + folder)])
 
     x_test = []
     y_test = []
@@ -47,7 +47,6 @@ def two_streams_rgb():
             if label == value:
                 x_test.append(im)
                 y_test.append(label)
-
 
     x, im_input, INP_SHAPE, DIM_ORDERING = two_streams()
 
