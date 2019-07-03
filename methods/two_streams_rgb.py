@@ -5,6 +5,7 @@ from os.path import join, isdir
 from os import makedirs
 
 from model import two_streams
+from dataset import *
 
 
 def two_streams_rgb():
@@ -20,15 +21,35 @@ def two_streams_rgb():
 
     test_datagen = ImageDataGenerator(rescale=1. / 255)
 
-    (x_train, y_train) = train_datagen.flow_from_directory(
+    (x_train_all, y_train_all) = train_datagen.flow_from_directory(
         dataset + 'train/',
         target_size=(227, 227),
         batch_size=32)
 
-    (x_test, y_test) = test_datagen.flow_from_directory(
+    x_train = []
+    y_train = []
+
+    for value in classes_values:
+        for im, label in zip(x_train_all, y_train_all):
+            if label == value:
+                x_train.append(im)
+                y_train.append(label)
+        #x_train, y_train = [im, label for (im, label) in zip(x_train,y_train) if label == value]
+
+    (x_test_all, y_test_all) = test_datagen.flow_from_directory(
         dataset + 'test/',
         target_size=(227, 227),
         batch_size=32)
+
+    x_test = []
+    y_test = []
+
+    for value in classes_values:
+        for im, label in zip(x_test_all, y_test_all):
+            if label == value:
+                x_test.append(im)
+                y_test.append(label)
+
 
     x, im_input, INP_SHAPE, DIM_ORDERING = two_streams()
 
