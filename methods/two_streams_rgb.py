@@ -36,7 +36,8 @@ def two_streams_rgb():
 
     for folder in listdir(dataset):
         y_test_all = folder
-        x_test_all.append([cv2.imread(dataset + folder + '/' + im) for im in listdir(folder)])
+        print folder
+        x_test_all.append([cv2.imread(dataset + folder + '/' + im) for im in listdir(dataset+folder)])
 
     x_test = []
     y_test = []
