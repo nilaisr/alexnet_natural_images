@@ -2,7 +2,8 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Model
 from keras import optimizers
 from os.path import join, isdir
-from os import makedirs
+from os import makedirs, listdir
+import cv2
 
 from model import two_streams
 from dataset import *
@@ -13,17 +14,13 @@ def two_streams_rgb():
     save_dir = '/home/nsallent/output/saved_models/'
     model_name = 'two_streams_rgb'
 
-    train_datagen = ImageDataGenerator(
-        rescale=1. / 255,
-        shear_range=0.2,
-        zoom_range=0.2,
-        horizontal_flip=True)
+    x_train_all = []
+    y_train_all = []
 
-    test_datagen = ImageDataGenerator(rescale=1. / 255)
+    for folder in listdir(dataset):
+        y_train_all = folder
+        x_train_all.append([cv2.imread(dataset+folder+'/'+im) for im in listdir(folder)])
 
-    (x_train_all, y_train_all) = train_datagen.flow_from_directory(
-        dataset + 'train/',
-        target_size=(227, 227))
 
     x_train = []
     y_train = []
@@ -33,11 +30,13 @@ def two_streams_rgb():
             if label == value:
                 x_train.append(im)
                 y_train.append(label)
-        #x_train, y_train = [im, label for (im, label) in zip(x_train,y_train) if label == value]
 
-    (x_test_all, y_test_all) = test_datagen.flow_from_directory(
-        dataset + 'test/',
-        target_size=(227, 227))
+    x_test_all = []
+    y_test_all = []
+
+    for folder in listdir(dataset):
+        y_test_all = folder
+        x_test_all.append([cv2.imread(dataset + folder + '/' + im) for im in listdir(folder)])
 
     x_test = []
     y_test = []
