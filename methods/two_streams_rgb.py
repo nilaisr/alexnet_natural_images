@@ -23,8 +23,7 @@ def two_streams_rgb():
 
     (x_train_all, y_train_all) = train_datagen.flow_from_directory(
         dataset + 'train/',
-        target_size=(227, 227),
-        batch_size=32)
+        target_size=(227, 227))
 
     x_train = []
     y_train = []
@@ -38,8 +37,7 @@ def two_streams_rgb():
 
     (x_test_all, y_test_all) = test_datagen.flow_from_directory(
         dataset + 'test/',
-        target_size=(227, 227),
-        batch_size=32)
+        target_size=(227, 227))
 
     x_test = []
     y_test = []
