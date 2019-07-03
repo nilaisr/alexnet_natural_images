@@ -8,8 +8,8 @@ from model import two_streams
 
 
 def two_streams_rgb():
-    dataset = 'home/cic/datasets/ImageNet/'
-    save_dir = 'home/nsallent/output/saved_models/'
+    dataset = '/home/cic/datasets/ImageNet/'
+    save_dir = '/home/nsallent/output/saved_models/'
     model_name = 'two_streams_rgb'
 
     train_datagen = ImageDataGenerator(
