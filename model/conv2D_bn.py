@@ -8,8 +8,8 @@ def conv2D_bn(x,
               filters,
               num_row,
               num_col,
-              padding='same',
               strides=(1, 1),
+              padding='same',
               name=None):
     """Utility function to apply conv + BN.
     Arguments:
