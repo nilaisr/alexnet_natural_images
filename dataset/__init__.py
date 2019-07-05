@@ -1,1 +1,1 @@
-from classes_names import *
+from .classes_names import *

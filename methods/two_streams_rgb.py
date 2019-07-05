@@ -19,7 +19,7 @@ def two_streams_rgb():
 
     for folder in listdir(dataset):
         y_train_all = folder
-        print folder
+        print(folder)
         x_train_all.append([cv2.imread(dataset + folder + '/' + im) for im in listdir(dataset + folder)])
 
     x_train = []
@@ -36,7 +36,7 @@ def two_streams_rgb():
 
     for folder in listdir(dataset):
         y_test_all = folder
-        print folder
+        print(folder)
         x_test_all.append([cv2.imread(dataset + folder + '/' + im) for im in listdir(dataset + folder)])
 
     x_test = []
