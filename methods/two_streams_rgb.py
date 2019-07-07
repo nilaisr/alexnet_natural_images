@@ -10,16 +10,17 @@ from dataset import *
 
 
 def two_streams_rgb():
-    dataset = '/home/cic/datasets/ImageNet/'
+    dataset_train = '/home/cic/datasets/ImageNet/train/'
+    dataset_test = '/home/cic/datasets/ImageNet/validation/'
     save_dir = '/home/nsallent/output/saved_models/'
     model_name = 'two_streams_rgb'
 
     x_train_all = []
     y_train_all = []
 
-    for folder in listdir(dataset+'train/'):
-        y_train_all.extend([folder]*len(listdir(dataset+'train/' + folder)))
-        x_train_all.extend([cv2.imread(dataset+'train/' + folder + '/' + im) for im in listdir(dataset + folder)])
+    for folder in listdir(dataset_train):
+        y_train_all.extend([folder] * len(listdir(dataset_train + folder)))
+        x_train_all.extend([cv2.imread(dataset_train + folder + '/' + im) for im in listdir(dataset_train + folder)])
 
     x_train = []
     y_train = []
@@ -37,9 +38,9 @@ def two_streams_rgb():
     x_test_all = []
     y_test_all = []
 
-    for folder in listdir(dataset+'validation'):
-        y_test_all.extend([folder]*len(listdir(dataset +'validation'+ folder)))
-        x_test_all.extend([cv2.imread(dataset+'validation' + folder + '/' + im) for im in listdir(dataset + folder)])
+    for folder in listdir(dataset_test):
+        y_test_all.extend([folder] * len(listdir(dataset_test + folder)))
+        x_test_all.extend([cv2.imread(dataset_test + folder + '/' + im) for im in listdir(dataset_test + folder)])
         print np.shape(x_test_all), np.shape(x_test_all[0])
 
     x_test = []
