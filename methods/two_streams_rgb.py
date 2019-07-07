@@ -1,4 +1,3 @@
-from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Model
 from keras import optimizers
 from os.path import join, isdir
