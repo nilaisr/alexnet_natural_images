@@ -36,7 +36,7 @@ def two_streams_rgb():
     for folder in listdir(dataset):
         y_test_all = folder
         x_test_all.append([cv2.imread(dataset + folder + '/' + im) for im in listdir(dataset + folder)])
-        print np.shape(x_test_all, x_test_all[0], x_test_all[0][0])
+        print np.shape(x_test_all), np.shape(x_test_all[0]), np.shape(x_test_all[0][0])
 
     x_test = []
     y_test = []
