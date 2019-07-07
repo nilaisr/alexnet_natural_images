@@ -2,6 +2,7 @@ from keras.models import Model
 from keras import optimizers
 from os.path import join, isdir
 from os import makedirs, listdir
+import numpy as np
 import cv2
 
 from model import two_streams
@@ -18,7 +19,6 @@ def two_streams_rgb():
 
     for folder in listdir(dataset):
         y_train_all = folder
-        print(folder)
         x_train_all.append([cv2.imread(dataset + folder + '/' + im) for im in listdir(dataset + folder)])
 
     x_train = []
@@ -35,9 +35,8 @@ def two_streams_rgb():
 
     for folder in listdir(dataset):
         y_test_all = folder
-        print(folder)
         x_test_all.append([cv2.imread(dataset + folder + '/' + im) for im in listdir(dataset + folder)])
-        print size(x_test_all[0])
+        print np.shape(x_test_all[0])
 
     x_test = []
     y_test = []
