@@ -17,9 +17,9 @@ def two_streams_rgb():
     x_train_all = []
     y_train_all = []
 
-    for folder in listdir(dataset+'train'):
-        y_train_all.extend([folder]*len(listdir(dataset + folder)))
-        x_train_all.extend([cv2.imread(dataset + folder + '/' + im) for im in listdir(dataset + folder)])
+    for folder in listdir(dataset+'train/'):
+        y_train_all.extend([folder]*len(listdir(dataset+'train/' + folder)))
+        x_train_all.extend([cv2.imread(dataset+'train/' + folder + '/' + im) for im in listdir(dataset + folder)])
 
     x_train = []
     y_train = []
@@ -38,8 +38,8 @@ def two_streams_rgb():
     y_test_all = []
 
     for folder in listdir(dataset+'validation'):
-        y_test_all.extend([folder]*len(listdir(dataset + folder)))
-        x_test_all.extend([cv2.imread(dataset + folder + '/' + im) for im in listdir(dataset + folder)])
+        y_test_all.extend([folder]*len(listdir(dataset +'validation'+ folder)))
+        x_test_all.extend([cv2.imread(dataset+'validation' + folder + '/' + im) for im in listdir(dataset + folder)])
         print np.shape(x_test_all), np.shape(x_test_all[0])
 
     x_test = []
