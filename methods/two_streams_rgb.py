@@ -37,6 +37,7 @@ def two_streams_rgb():
         y_test_all = folder
         print(folder)
         x_test_all.append([cv2.imread(dataset + folder + '/' + im) for im in listdir(dataset + folder)])
+        print size(x_test_all[0])
 
     x_test = []
     y_test = []

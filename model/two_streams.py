@@ -8,7 +8,6 @@ import numpy as np
 np.random.seed(1000)
 
 
-
 def conv2D_bn(x,
               filters,
               num_row,
@@ -40,12 +39,9 @@ def conv2D_bn(x,
         bn_axis = 1
     else:
         bn_axis = 3
-    x = Conv2D(
-        filters, (num_row, num_col),
-        strides=strides,
-        padding=padding,
-        use_bias=False,
-        name=conv_name)(x)
+    x = Conv2D(filters, (num_row, num_col),
+               strides=strides, padding=padding,
+               use_bias=False, name=conv_name)(x)
     x = BatchNormalization(axis=bn_axis, scale=False, name=bn_name)(x)
     x = Activation('relu', name=name)(x)
     return x
@@ -71,50 +67,32 @@ def two_streams():
 
     # Channel 1 - Conv Net Layer 1
     x = conv2D_bn(img_input, 3, 11, 11, (1, 1), 'same')
-    x = MaxPooling2D(
-        strides=(
-            4, 4), pool_size=(
-            4, 4), dim_ordering=DIM_ORDERING)(x)
+    x = MaxPooling2D(strides=(4, 4), pool_size=(4, 4), dim_ordering=DIM_ORDERING)(x)
     x = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(x)
 
     # Channel 2 - Conv Net Layer 1
     y = conv2D_bn(img_input, 3, 11, 11, (1, 1), 'same')
-    y = MaxPooling2D(
-        strides=(
-            4, 4), pool_size=(
-            4, 4), dim_ordering=DIM_ORDERING)(y)
+    y = MaxPooling2D(strides=(4, 4), pool_size=(4, 4), dim_ordering=DIM_ORDERING)(y)
     y = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(y)
 
     # Channel 1 - Conv Net Layer 2
     x = conv2D_bn(x, 48, 55, 55, (1, 1), 'same')
-    x = MaxPooling2D(
-        strides=(
-            2, 2), pool_size=(
-            2, 2), dim_ordering=DIM_ORDERING)(x)
+    x = MaxPooling2D(strides=(2, 2), pool_size=(2, 2), dim_ordering=DIM_ORDERING)(x)
     x = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(x)
 
     # Channel 2 - Conv Net Layer 2
     y = conv2D_bn(y, 48, 55, 55, (1, 1), 'same')
-    y = MaxPooling2D(
-        strides=(
-            2, 2), pool_size=(
-            2, 2), dim_ordering=DIM_ORDERING)(y)
+    y = MaxPooling2D(strides=(2, 2), pool_size=(2, 2), dim_ordering=DIM_ORDERING)(y)
     y = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(y)
 
     # Channel 1 - Conv Net Layer 3
     x = conv2D_bn(x, 128, 27, 27, (1, 1), 'same')
-    x = MaxPooling2D(
-        strides=(
-            2, 2), pool_size=(
-            2, 2), dim_ordering=DIM_ORDERING)(x)
+    x = MaxPooling2D(strides=(2, 2), pool_size=(2, 2), dim_ordering=DIM_ORDERING)(x)
     x = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(x)
 
     # Channel 2 - Conv Net Layer 3
     y = conv2D_bn(y, 128, 27, 27, (1, 1), 'same')
-    y = MaxPooling2D(
-        strides=(
-            2, 2), pool_size=(
-            2, 2), dim_ordering=DIM_ORDERING)(y)
+    y = MaxPooling2D(strides=(2, 2), pool_size=(2, 2), dim_ordering=DIM_ORDERING)(y)
     y = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(y)
 
     # Channel 1 - Conv Net Layer 4
@@ -139,18 +117,12 @@ def two_streams():
 
     # Channel 1 - Cov Net Layer 6
     x3 = conv2D_bn(x2, 128, 27, 27, (1, 1), 'same')
-    x3 = MaxPooling2D(
-        strides=(
-            2, 2), pool_size=(
-            2, 2), dim_ordering=DIM_ORDERING)(x3)
+    x3 = MaxPooling2D(strides=(2, 2), pool_size=(2, 2), dim_ordering=DIM_ORDERING)(x3)
     x3 = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(x3)
 
     # Channel 2 - Cov Net Layer 6
     y3 = conv2D_bn(y2, 128, 27, 27, (1, 1), 'same')
-    y3 = MaxPooling2D(
-        strides=(
-            2, 2), pool_size=(
-            2, 2), dim_ordering=DIM_ORDERING)(y3)
+    y3 = MaxPooling2D(strides=(2, 2), pool_size=(2, 2), dim_ordering=DIM_ORDERING)(y3)
     y3 = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(y3)
 
     # Channel 1 - Cov Net Layer 7
