@@ -30,6 +30,8 @@ def two_streams_rgb():
                 x_train.append(im)
                 y_train.append(label)
 
+    print(np.shape(x_train), np.shape(y_train))
+
     x_test_all = []
     y_test_all = []
 
