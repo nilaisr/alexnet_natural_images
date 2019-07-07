@@ -24,6 +24,7 @@ def two_streams_rgb():
     x_train = []
     y_train = []
 
+    print(x_train_all, y_train_all)
     for value in classes_values:
         for im, label in zip(x_train_all, y_train_all):
             if label == value:
@@ -31,6 +32,7 @@ def two_streams_rgb():
                 y_train.append(label)
 
     print(np.shape(x_train), np.shape(y_train))
+    print(x_train, y_train)
 
     x_test_all = []
     y_test_all = []
