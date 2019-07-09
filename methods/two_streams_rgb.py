@@ -25,7 +25,6 @@ def two_streams_rgb():
     x_train = []
     y_train = []
 
-    # print(x_train_all, y_train_all)
     for value in classes_values:
         for im, label in zip(x_train_all, y_train_all):
             if label == value:
@@ -33,16 +32,12 @@ def two_streams_rgb():
                 x_train.append(im_pca)
                 y_train.append(label)
 
-    # print(np.shape(x_train), np.shape(y_train))
-    # print(x_train, y_train)
-
     x_test_all = []
     y_test_all = []
 
     for folder in listdir(dataset_test):
         y_test_all.extend([folder] * len(listdir(dataset_test + folder)))
         x_test_all.extend([cv2.imread(dataset_test + folder + '/' + im) for im in listdir(dataset_test + folder)])
-        # print np.shape(x_test_all), np.shape(x_test_all[0])
 
     x_test = []
     y_test = []
