@@ -77,7 +77,7 @@ def two_streams_rgb():
     #             x_test.append(im_pca)
     #             y_test.append(label)
 
-    print('All images loaded.')
+    # print('All images loaded.')
 
     x, im_input, INP_SHAPE, DIM_ORDERING = two_streams()
 
@@ -99,14 +99,12 @@ def two_streams_rgb():
     train_generator = train_datagen.flow_from_directory(
         dataset_train,
         target_size=(224, 224),
-        classes=classes_train,
-        class_mode='binary')
+        classes=classes_train)
 
     validation_generator = test_datagen.flow_from_directory(
         dataset_test,
         target_size=(224, 224),
-        classes=classes_test,
-        class_mode='binary')
+        classes=classes_test)
 
     model.fit_generator(
         train_generator,
@@ -129,6 +127,6 @@ def two_streams_rgb():
     print('Saved trained model at %s ' % model_path)
 
     # Score trained model.
-    scores = model.evaluate(x_test, y_test, verbose=1)
+    scores = model.evaluate_generator(validation_generator)
     print('Test loss:', scores[0])
     print('Test accuracy:', scores[1])

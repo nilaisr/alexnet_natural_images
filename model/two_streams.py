@@ -55,7 +55,7 @@ def two_streams():
 
     # # Define image input layer
     # if DIM_ORDERING == 'th':
-    INP_SHAPE = (3, 224, 224)  # 3 - Number of RGB Colours
+    INP_SHAPE = (32,)  # 3 - Number of RGB Colours
     img_input = Input(shape=INP_SHAPE)
     CONCAT_AXIS = 1
     # elif DIM_ORDERING == 'tf':
