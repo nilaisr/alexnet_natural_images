@@ -3,3 +3,5 @@ matplotlib
 scipy
 keras
 opencv-python
+Pillow
+tensorflow
