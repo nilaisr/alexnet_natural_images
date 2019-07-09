@@ -98,12 +98,12 @@ def two_streams_rgb():
 
     train_generator = train_datagen.flow_from_directory(
         dataset_train,
-        target_size=(224, 224),
+        target_size=(227, 227),
         classes=classes_train)
 
     validation_generator = test_datagen.flow_from_directory(
         dataset_test,
-        target_size=(224, 224),
+        target_size=(227, 227),
         classes=classes_test)
 
     model.fit_generator(

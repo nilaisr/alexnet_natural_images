@@ -1,4 +1,4 @@
-from keras.layers import Dense, ZeroPadding2D, Dropout, Flatten, MaxPooling2D, Concatenate, Input
+from keras.layers import Dense, ZeroPadding2D, Dropout, Flatten, MaxPooling2D, Concatenate, Input, merge
 from keras.layers import Activation
 from keras.layers import BatchNormalization
 from keras.layers import Conv2D
@@ -55,7 +55,7 @@ def two_streams():
 
     # # Define image input layer
     # if DIM_ORDERING == 'th':
-    INP_SHAPE = (32,)  # 3 - Number of RGB Colours
+    INP_SHAPE = (32,3,227,227)  # 3 - Number of RGB Colours
     img_input = Input(shape=INP_SHAPE)
     CONCAT_AXIS = 1
     # elif DIM_ORDERING == 'tf':
