@@ -1,4 +1,4 @@
-from keras.layers import Dense, ZeroPadding2D, Dropout, Flatten, MaxPooling2D, merge, Input
+from keras.layers import Dense, ZeroPadding2D, Dropout, Flatten, MaxPooling2D, Concatenate, Input
 from keras.layers import Activation
 from keras.layers import BatchNormalization
 from keras.layers import Conv2D
@@ -53,76 +53,78 @@ def two_streams():
     DROPOUT = 0.5
     DIM_ORDERING = 'th'
 
-    # Define image input layer
-    if DIM_ORDERING == 'th':
-        INP_SHAPE = (3, 224, 224)  # 3 - Number of RGB Colours
-        img_input = Input(shape=INP_SHAPE)
-        CONCAT_AXIS = 1
-    elif DIM_ORDERING == 'tf':
-        INP_SHAPE = (224, 224, 3)  # 3 - Number of RGB Colours
-        img_input = Input(shape=INP_SHAPE)
-        CONCAT_AXIS = 3
-    else:
-        raise Exception('Invalid dim ordering: ' + str(DIM_ORDERING))
+    # # Define image input layer
+    # if DIM_ORDERING == 'th':
+    #     INP_SHAPE = (3, 224, 224)  # 3 - Number of RGB Colours
+    #     img_input = Input(shape=INP_SHAPE)
+    CONCAT_AXIS = 1
+    # elif DIM_ORDERING == 'tf':
+    #     INP_SHAPE = (224, 224, 3)  # 3 - Number of RGB Colours
+    img_input = Input()
+    #     CONCAT_AXIS = 3
+    # else:
+    #     raise Exception('Invalid dim ordering: ' + str(DIM_ORDERING))
+
+    print(np.shape(img_input))
 
     # Channel 1 - Conv Net Layer 1
     x = conv2D_bn(img_input, 3, 11, 11, (1, 1), 'same')
-    x = MaxPooling2D(strides=(4, 4), pool_size=(4, 4), dim_ordering=DIM_ORDERING)(x)
+    x = MaxPooling2D(pool_size=(4, 4), strides=(4, 4), dim_ordering=DIM_ORDERING)(x)
     x = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(x)
 
     # Channel 2 - Conv Net Layer 1
     y = conv2D_bn(img_input, 3, 11, 11, (1, 1), 'same')
-    y = MaxPooling2D(strides=(4, 4), pool_size=(4, 4), dim_ordering=DIM_ORDERING)(y)
+    y = MaxPooling2D(pool_size=(4, 4), strides=(4, 4), dim_ordering=DIM_ORDERING)(y)
     y = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(y)
 
     # Channel 1 - Conv Net Layer 2
     x = conv2D_bn(x, 48, 55, 55, (1, 1), 'same')
-    x = MaxPooling2D(strides=(2, 2), pool_size=(2, 2), dim_ordering=DIM_ORDERING)(x)
+    x = MaxPooling2D(pool_size=(2, 2), strides=(2, 2), dim_ordering=DIM_ORDERING)(x)
     x = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(x)
 
     # Channel 2 - Conv Net Layer 2
     y = conv2D_bn(y, 48, 55, 55, (1, 1), 'same')
-    y = MaxPooling2D(strides=(2, 2), pool_size=(2, 2), dim_ordering=DIM_ORDERING)(y)
+    y = MaxPooling2D(pool_size=(2, 2), strides=(2, 2), dim_ordering=DIM_ORDERING)(y)
     y = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(y)
 
     # Channel 1 - Conv Net Layer 3
     x = conv2D_bn(x, 128, 27, 27, (1, 1), 'same')
-    x = MaxPooling2D(strides=(2, 2), pool_size=(2, 2), dim_ordering=DIM_ORDERING)(x)
+    x = MaxPooling2D(pool_size=(2, 2), strides=(2, 2), dim_ordering=DIM_ORDERING)(x)
     x = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(x)
 
     # Channel 2 - Conv Net Layer 3
     y = conv2D_bn(y, 128, 27, 27, (1, 1), 'same')
-    y = MaxPooling2D(strides=(2, 2), pool_size=(2, 2), dim_ordering=DIM_ORDERING)(y)
+    y = MaxPooling2D(pool_size=(2, 2), strides=(2, 2), dim_ordering=DIM_ORDERING)(y)
     y = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(y)
 
     # Channel 1 - Conv Net Layer 4
-    x1 = merge([x, y], mode='concat', concat_axis=CONCAT_AXIS)
+    x1 = Concatenate()([x, y])
     x1 = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(x1)
     x1 = conv2D_bn(x1, 192, 13, 13, (1, 1), 'same')
 
     # Channel 2 - Conv Net Layer 4
-    y1 = merge([x, y], mode='concat', concat_axis=CONCAT_AXIS)
+    y1 = Concatenate()([x, y])
     y1 = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(y1)
     y1 = conv2D_bn(y1, 192, 13, 13, (1, 1), 'same')
 
     # Channel 1 - Conv Net Layer 5
-    x2 = merge([x1, y1], mode='concat', concat_axis=CONCAT_AXIS)
+    x2 = Concatenate()([x1, y1])
     x2 = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(x2)
     x2 = conv2D_bn(x2, 192, 13, 13, (1, 1), 'same')
 
     # Channel 2 - Conv Net Layer 5
-    y2 = merge([x1, y1], mode='concat', concat_axis=CONCAT_AXIS)
+    y2 = Concatenate()([x1, y1])
     y2 = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(y2)
     y2 = conv2D_bn(y2, 192, 13, 13, (1, 1), 'same')
 
     # Channel 1 - Cov Net Layer 6
     x3 = conv2D_bn(x2, 128, 27, 27, (1, 1), 'same')
-    x3 = MaxPooling2D(strides=(2, 2), pool_size=(2, 2), dim_ordering=DIM_ORDERING)(x3)
+    x3 = MaxPooling2D(pool_size=(2, 2), strides=(2, 2), dim_ordering=DIM_ORDERING)(x3)
     x3 = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(x3)
 
     # Channel 2 - Cov Net Layer 6
     y3 = conv2D_bn(y2, 128, 27, 27, (1, 1), 'same')
-    y3 = MaxPooling2D(strides=(2, 2), pool_size=(2, 2), dim_ordering=DIM_ORDERING)(y3)
+    y3 = MaxPooling2D(pool_size=(2, 2), strides=(2, 2), dim_ordering=DIM_ORDERING)(y3)
     y3 = ZeroPadding2D(padding=(1, 1), dim_ordering=DIM_ORDERING)(y3)
 
     # Channel 1 - Cov Net Layer 7
