@@ -21,6 +21,8 @@ def two_streams_rgb():
     #     y_train_all.extend([folder] * len(listdir(dataset_train + folder)))
     #     x_train_all.extend([cv2.imread(dataset_train + folder + '/' + im) for im in listdir(dataset_train + folder)])
 
+    print('Starting image loading.')
+
     x_train = []
     y_train = []
 
@@ -28,10 +30,11 @@ def two_streams_rgb():
         if folder in classes_values:
             for im in listdir(dataset_train + folder):
                 im_pca = rgb2pca(cv2.imread(dataset_train + folder + '/' + im))
+                print(np.shape(im_pca))
                 x_train.append(im_pca)
                 y_train.append(folder)
 
-    print(np.unique(y_train))
+        print(np.unique(y_train))
 
     x_test = []
     y_test = []
