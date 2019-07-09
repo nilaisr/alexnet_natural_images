@@ -54,16 +54,9 @@ def two_streams():
     DIM_ORDERING = 'th'
 
     # # Define image input layer
-    # if DIM_ORDERING == 'th':
-    INP_SHAPE = (32,3,227,227)  # 3 - Number of RGB Colours
+    INP_SHAPE = (227, 227, 3)  # 3 - Number of RGB Colours
     img_input = Input(shape=INP_SHAPE)
-    CONCAT_AXIS = 1
-    # elif DIM_ORDERING == 'tf':
-    # INP_SHAPE = (224, 224, 3)  # 3 - Number of RGB Colours
-    # img_input = Input(shape=INP_SHAPE)
-    #     CONCAT_AXIS = 3
-    # else:
-    #     raise Exception('Invalid dim ordering: ' + str(DIM_ORDERING))
+    CONCAT_AXIS = 3
 
     print(np.shape(img_input))
 
