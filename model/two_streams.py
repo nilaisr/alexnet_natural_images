@@ -121,13 +121,15 @@ def two_streams():
     y3 = ZeroPadding2D(padding=(1, 1), data_format=data_format)(y3)
 
     # Channel 1 - Cov Net Layer 7
-    x4 = merge([x3, y3], mode='mul', concat_axis=CONCAT_AXIS)
+    # x4 = merge([x3, y3], mode='mul', concat_axis=CONCAT_AXIS)
+    x4 = Multiply()([x3, y3])
     x4 = Flatten()(x4)
     x4 = Dense(2048, activation='relu')(x4)
     x4 = Dropout(dropout)(x4)
 
     # Channel 2 - Cov Net Layer 7
-    y4 = merge([x3, y3], mode='mul', concat_axis=CONCAT_AXIS)
+    # y4 = merge([x3, y3], mode='mul', concat_axis=CONCAT_AXIS)
+    y4 = Multiply()([x3, y3])
     y4 = Flatten()(y4)
     y4 = Dense(2048, activation='relu')(y4)
     y4 = Dropout(dropout)(y4)

@@ -101,6 +101,10 @@ def two_streams_rgb():
         target_size=(227, 227),
         classes=classes_train)
 
+    print(train_generator.num_classes)
+    print(train_generator.class_indices)
+    print(np.size(train_generator))
+
     validation_generator = test_datagen.flow_from_directory(
         dataset_test,
         target_size=(227, 227),
