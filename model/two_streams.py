@@ -56,9 +56,6 @@ def two_streams():
     # # Define image input layer
     input_shape = (227, 227, 3)  # 3 - Number of RGB Colours
     img_input = Input(shape=input_shape)
-    CONCAT_AXIS = 3
-
-    print(np.shape(img_input))
 
     # Channel 1 - Conv Net Layer 1
     x = conv2D_bn(img_input, 3, 11, 11, (1, 1), 'same')
@@ -123,6 +120,7 @@ def two_streams():
     # Channel 1 - Cov Net Layer 7
     # x4 = merge([x3, y3], mode='mul', concat_axis=CONCAT_AXIS)
     x4 = Multiply()([x3, y3])
+    x4 = Concatenate(axis=3)([x4])
     x4 = Flatten()(x4)
     x4 = Dense(2048, activation='relu')(x4)
     x4 = Dropout(dropout)(x4)
@@ -130,6 +128,7 @@ def two_streams():
     # Channel 2 - Cov Net Layer 7
     # y4 = merge([x3, y3], mode='mul', concat_axis=CONCAT_AXIS)
     y4 = Multiply()([x3, y3])
+    y4 = Concatenate(axis=3)([y4])
     y4 = Flatten()(y4)
     y4 = Dense(2048, activation='relu')(y4)
     y4 = Dropout(dropout)(y4)
