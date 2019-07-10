@@ -113,8 +113,8 @@ def two_streams():
 
     # Channel 1 - Cov Net Layer 7
     print(np.shape(x3), np.shape(y3))
-    x3t = np.transpose(x3, (2, 1, 0))
-    y3t = np.transpose(y3, (2, 1, 0))
+    x3t = np.transpose(x3, (0, 3, 2, 1))
+    y3t = np.transpose(y3, (0, 3, 2, 1))
     # x4 = merge([x3, y3], mode='mul', concat_axis=3)
     x4 = Multiply()([x3t, y3t])
     x4 = np.transpose(x4, (2, 1, 0))
