@@ -3,13 +3,10 @@ from keras.models import Model
 from keras import optimizers
 from os.path import join, isdir
 from os import makedirs, listdir
-from PIL import Image
 
 from model import two_streams
 from methods import rgb2pca
 from dataset import *
-
-import numpy as np
 
 
 def two_streams_rgb():
@@ -18,38 +15,11 @@ def two_streams_rgb():
     save_dir = '/home/nsallent/output/saved_models/'
     model_name = 'two_streams_rgb'
 
-    # for folder in listdir(dataset_train):
-    #     y_train_all.extend([folder] * len(listdir(dataset_train + folder)))
-    #     x_train_all.extend([Image.open(dataset_train + folder + '/' + im) for im in listdir(dataset_train + folder)])
-
-    print('Starting image loading.')
-
-    # x_train = []
-    # y_train = []
-    #
-    # new_width = 350
-
     classes_train = []
 
     for folder in listdir(dataset_train):
         if folder in classes_values:
             classes_train.append(folder)
-
-    #         for im in listdir(dataset_train + folder):
-    #             im_pca = rgb2pca(Image.open(dataset_train + folder + '/' + im))
-    #             im_size = im_pca.size
-    #             if im_size[0] > new_width:
-    #                 new_height = new_width * im_size[0] / im_size[1]
-    #                 im_pca.resize((new_width, new_height))
-    #
-    #             print(np.shape(im_pca))
-    #             x_train.append(im_pca)
-    #             y_train.append(folder)
-    #
-    #     print(np.unique(y_train))
-    #
-    # x_test = []
-    # y_test = []
 
     classes_test = []
 
@@ -57,31 +27,9 @@ def two_streams_rgb():
         if folder in classes_values:
             classes_test.append(folder)
 
-    #         for im in listdir(dataset_test + folder):
-    #             im_pca = rgb2pca(Image.open(dataset_test + folder + '/' + im))
-    #             x_test.append(im_pca)
-    #             y_test.append(folder)
-    #
-    # print(np.unique(y_test))
+    x, im_input, input_shape, data_format = two_streams()
 
-    # y_test_all.extend([folder] * len(listdir(dataset_test + folder)))
-    # x_test_all.extend([Image.open(dataset_test + folder + '/' + im) for im in listdir(dataset_test + folder)])
-    #
-    # x_test = []
-    # y_test = []
-    #
-    # for value in classes_values:
-    #     for im, label in zip(x_test_all, y_test_all):
-    #         if label == value:
-    #             im_pca = rgb2pca(im)
-    #             x_test.append(im_pca)
-    #             y_test.append(label)
-
-    # print('All images loaded.')
-
-    x, im_input, INP_SHAPE, DIM_ORDERING = two_streams()
-
-    model = Model(input=im_input,
+    model = Model(input=rgb2pca(im_input),
                   output=[x])
 
     opt = optimizers.SGD(lr=0.01, decay=0.0005, momentum=0.9)
@@ -102,13 +50,13 @@ def two_streams_rgb():
         classes=classes_train)
 
     print(train_generator.num_classes)
-    print(train_generator.class_indices)
-    print(np.size(train_generator))
 
     validation_generator = test_datagen.flow_from_directory(
         dataset_test,
         target_size=(227, 227),
         classes=classes_test)
+
+    print(validation_generator.num_classes)
 
     model.fit_generator(
         train_generator,
@@ -116,12 +64,6 @@ def two_streams_rgb():
         epochs=50,
         validation_data=validation_generator,
         validation_steps=800)
-
-    # model.fit_generator(
-    #     (x_train, y_train),
-    #     steps_per_epoch=2000,
-    #     epochs=50,
-    #     validation_data=(x_test, y_test))
 
     # Save model and weights
     if not isdir(save_dir):
