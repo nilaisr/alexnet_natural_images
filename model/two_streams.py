@@ -112,7 +112,7 @@ def two_streams():
     y3 = ZeroPadding2D(padding=(1, 1), data_format=data_format)(y3)
 
     # Channel 1 - Cov Net Layer 7
-    print(np.size(x3), np.size(y3))
+    print(np.shape(x3), np.shape(y3))
     x3t = np.transpose(x3, (2, 1, 0))
     y3t = np.transpose(y3, (2, 1, 0))
     # x4 = merge([x3, y3], mode='mul', concat_axis=3)
