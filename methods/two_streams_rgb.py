@@ -27,15 +27,6 @@ def two_streams_rgb():
         if folder in classes_values:
             classes_test.append(folder)
 
-    x, im_input, input_shape, data_format = two_streams()
-
-    model = Model(input=rgb2pca(im_input),
-                  output=[x])
-
-    opt = optimizers.SGD(lr=0.01, decay=0.0005, momentum=0.9)
-    model.compile(optimizer=opt,
-                  loss='categorical_crossentropy')
-
     train_datagen = ImageDataGenerator(
         rescale=1. / 255,
         shear_range=0.2,
@@ -57,6 +48,15 @@ def two_streams_rgb():
         classes=classes_test)
 
     print(validation_generator.num_classes)
+
+    x, im_input, input_shape, data_format = two_streams()
+
+    model = Model(input=rgb2pca(im_input),
+                  output=[x])
+
+    opt = optimizers.SGD(lr=0.01, decay=0.0005, momentum=0.9)
+    model.compile(optimizer=opt,
+                  loss='categorical_crossentropy')
 
     model.fit_generator(
         train_generator,
