@@ -1,5 +1,5 @@
 from keras.models import Model
-from keras.utils.vis_utils import plot_model
+from keras.utils.visualize_util import plot
 from model import two_streams
 
 
@@ -13,7 +13,7 @@ def check_print():
     model.summary()
 
     # Save a PNG of the Model Build
-    plot_model(model, to_file='./Model/AlexNet_Original.png')
+    plot(model, to_file='./Model/AlexNet_Original.png')
 
     model.compile(optimizer='rmsprop',
                   loss='categorical_crossentropy')
