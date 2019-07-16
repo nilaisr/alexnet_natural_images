@@ -1,8 +1,9 @@
-from keras.layers.core import Dense, Dropout, Flatten, Activation
-from keras.engine.topology import Merge
+from keras.layers import ZeroPadding2D, Convolution2D
+from keras.layers import Dense, Dropout, Flatten, Activation
+from keras.layers import MaxPooling2D
 from keras.layers import BatchNormalization
-from keras.layers.pooling import MaxPooling2D
-from keras.layers.convolutional import ZeroPadding2D, Convolution2D
+from keras.engine import Merge
+from keras.layers import Input
 import numpy as np
 
 np.random.seed(1000)
