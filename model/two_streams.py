@@ -34,7 +34,7 @@ def two_streams():
     # global constants
     num_classes = 444  # number of classes
     dropout = 0.5
-    data_format = 'th'
+    data_format = 'tf'
     concat_axis = 1
 
     # # Define image input layer
