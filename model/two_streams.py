@@ -32,11 +32,11 @@ def two_streams():
     # global constants
     num_classes = 444  # number of classes
     dropout = 0.5
-    data_format = 'tf'
-    concat_axis = -1
 
-    # # Define image input layer
+    data_format = 'tf'
+    concat_axis = 3
     input_shape = (227, 227, 3)  # 3 - Number of RGB Colours
+
     img_input = Input(shape=input_shape)
 
     # Channel 1 - Conv Net Layer 1
