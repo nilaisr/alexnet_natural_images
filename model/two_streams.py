@@ -1,7 +1,8 @@
-from keras.layers import Dense, ZeroPadding2D, Dropout, Flatten, MaxPooling2D, Input, merge
-from keras.layers import Activation
+from keras.layers.core import Dense, Dropout, Flatten, Activation
+from keras.engine.topology import Merge
 from keras.layers import BatchNormalization
-from keras.layers import Convolution2D
+from keras.layers.pooling import MaxPooling2D
+from keras.layers.convolutional import ZeroPadding2D, Convolution2D
 import numpy as np
 
 np.random.seed(1000)
@@ -72,22 +73,22 @@ def two_streams():
     y = ZeroPadding2D(padding=(1, 1), dim_ordering=data_format)(y)
 
     # Channel 1 - Conv Net Layer 4
-    x1 = merge([x, y], mode='concat', concat_axis=concat_axis)
+    x1 = Merge([x, y], mode='concat', concat_axis=concat_axis)
     x1 = ZeroPadding2D(padding=(1, 1), dim_ordering=data_format)(x1)
     x1 = conv2D_bn(x1, 192, 13, 13, strides=(1, 1), padding='same')
 
     # Channel 2 - Conv Net Layer 4
-    y1 = merge([x, y], mode='concat', concat_axis=concat_axis)
+    y1 = Merge([x, y], mode='concat', concat_axis=concat_axis)
     y1 = ZeroPadding2D(padding=(1, 1), dim_ordering=data_format)(y1)
     y1 = conv2D_bn(y1, 192, 13, 13, strides=(1, 1), padding='same')
 
     # Channel 1 - Conv Net Layer 5
-    x2 = merge([x1, y1], mode='concat', concat_axis=concat_axis)
+    x2 = Merge([x1, y1], mode='concat', concat_axis=concat_axis)
     x2 = ZeroPadding2D(padding=(1, 1), dim_ordering=data_format)(x2)
     x2 = conv2D_bn(x2, 192, 13, 13, strides=(1, 1), padding='same')
 
     # Channel 2 - Conv Net Layer 5
-    y2 = merge([x1, y1], mode='concat', concat_axis=concat_axis)
+    y2 = Merge([x1, y1], mode='concat', concat_axis=concat_axis)
     y2 = ZeroPadding2D(padding=(1, 1), dim_ordering=data_format)(y2)
     y2 = conv2D_bn(y2, 192, 13, 13, strides=(1, 1), padding='same')
 
@@ -102,29 +103,29 @@ def two_streams():
     y3 = ZeroPadding2D(padding=(1, 1), dim_ordering=data_format)(y3)
 
     # Channel 1 - Cov Net Layer 7
-    x4 = merge([x3, y3], mode='mul', concat_axis=concat_axis)
+    x4 = Merge([x3, y3], mode='mul', concat_axis=concat_axis)
     x4 = Flatten()(x4)
     x4 = Dense(2048, activation='relu')(x4)
     x4 = Dropout(dropout)(x4)
 
     # Channel 2 - Cov Net Layer 7
-    y4 = merge([x3, y3], mode='mul', concat_axis=concat_axis)
+    y4 = Merge([x3, y3], mode='mul', concat_axis=concat_axis)
     y4 = Flatten()(y4)
     y4 = Dense(2048, activation='relu')(y4)
     y4 = Dropout(dropout)(y4)
 
     # Channel 1 - Cov Net Layer 8
-    x5 = merge([x4, y4], mode='mul')
+    x5 = Merge([x4, y4], mode='mul')
     x5 = Dense(2048, activation='relu')(x5)
     x5 = Dropout(dropout)(x5)
 
     # Channel 2 - Cov Net Layer 8
-    y5 = merge([x4, y4], mode='mul')
+    y5 = Merge([x4, y4], mode='mul')
     y5 = Dense(2048, activation='relu')(y5)
     y5 = Dropout(dropout)(y5)
 
     # Final Channel - Cov Net 9
-    xy = merge([x5, y5], mode='mul')
+    xy = Merge([x5, y5], mode='mul')
     xy = Dense(output_dim=num_classes, activation='softmax')(xy)
 
     return xy, img_input, input_shape, data_format
