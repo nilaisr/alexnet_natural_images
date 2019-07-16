@@ -1,8 +1,7 @@
 from keras.layers import Dense, ZeroPadding2D, Dropout, Flatten, MaxPooling2D, Input, merge
 from keras.layers import Activation
 from keras.layers import BatchNormalization
-from keras.layers import Conv2D
-from keras import backend as K
+from keras.layers import Convolution2D
 import numpy as np
 
 np.random.seed(1000)
@@ -29,9 +28,7 @@ def conv2D_bn(x, filters, num_row, num_col, strides=(1, 1), padding='same', name
     bn_axis = 1
     # else:
     #     bn_axis = 3
-    x = Conv2D(filters, (num_row, num_col),
-               strides=strides, padding=padding,
-               use_bias=False, name=conv_name)(x)
+    x = Convolution2D(filters, num_row, num_col, strides=strides, padding=padding, use_bias=False, name=conv_name)(x)
     x = BatchNormalization(axis=bn_axis, scale=False, name=bn_name)(x)
     x = Activation('relu', name=name)(x)
     return x
