@@ -27,7 +27,7 @@ def conv2D_bn(x, filters, num_row, num_col, strides=(1, 1), padding='same', name
     bn_axis = 1
     # else:
     #     bn_axis = 3
-    x = Convolution2D(filters, num_row, num_col, strides=strides, border_mode=padding, use_bias=False)(x)
+    x = Convolution2D(filters, num_row, num_col, subsample=strides, border_mode=padding, use_bias=False)(x)
     x = BatchNormalization(axis=bn_axis, scale=False, name=bn_name)(x)
     x = Activation('relu', name=name)(x)
     return x
