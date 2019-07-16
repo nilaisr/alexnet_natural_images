@@ -35,7 +35,7 @@ def two_streams():
     num_classes = 444  # number of classes
     dropout = 0.5
     data_format = 'tf'
-    concat_axis = 1
+    concat_axis = 3
 
     # # Define image input layer
     input_shape = (227, 227, 3)  # 3 - Number of RGB Colours
