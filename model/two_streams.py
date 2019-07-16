@@ -33,7 +33,7 @@ def two_streams():
     num_classes = 444  # number of classes
     dropout = 0.5
 
-    data_format = 'tf'
+    data_format = 'channels_last'
     concat_axis = 3
     input_shape = (227, 227, 3)  # 3 - Number of RGB Colours
 
