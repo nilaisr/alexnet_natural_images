@@ -49,7 +49,7 @@ def two_streams_rgb():
 
     output, im_input, input_shape = two_streams()
 
-    model = Model(inputs=rgb2pca(im_input),
+    model = Model(inputs=im_input,
                   outputs=output)
 
     print(model.summary())
