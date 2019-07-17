@@ -42,6 +42,8 @@ def two_streams_rgb():
         target_size=(input_size, input_size),
         classes=classes_train)
 
+    print(train_generator.data_format, train_generator.image_shape)
+
     validation_generator = test_datagen.flow_from_directory(
         dataset_test,
         target_size=(input_size, input_size),
