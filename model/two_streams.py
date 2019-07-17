@@ -36,19 +36,13 @@ def two_streams():
 
     img_input = Input(shape=input_shape)
 
-    print(np.shape(img_input))
-
     # Channel 1 - Conv Net Layer 1
     x = conv2D_bn(img_input, 48, 11, 11, strides=(4, 4), padding='same')
     x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), data_format=data_format)(x)
 
-    print('conv1', np.shape(x))
-
     # Channel 2 - Conv Net Layer 1
     y = conv2D_bn(img_input, 48, 11, 11, strides=(4, 4), padding='same')
     y = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), data_format=data_format)(y)
-
-    print('conv1', np.shape(y))
 
     # Channel 1 - Conv Net Layer 2
     x = conv2D_bn(x, 128, 5, 5, strides=(1, 1), padding='valid')
@@ -60,15 +54,11 @@ def two_streams():
     y = ZeroPadding2D(padding=(2, 2), data_format=data_format)(y)
     y = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), data_format=data_format)(y)
 
-    print('conv2', np.shape(y))
-
     # Channel 1 - Conv Net Layer 3
     x = Conv2D(192, (3, 3), strides=(1, 1), padding='same')(x)
 
     # Channel 2 - Conv Net Layer 3
     y = Conv2D(192, (3, 3), strides=(1, 1), padding='same')(y)
-
-    print('conv3', np.shape(y))
 
     # Channel 1 - Conv Net Layer 4
     x1 = Concatenate()([x, y])
@@ -77,8 +67,6 @@ def two_streams():
     # Channel 2 - Conv Net Layer 4
     y1 = Concatenate()([x, y])
     y1 = Conv2D(192, (3, 3), strides=(1, 1), padding='same')(y1)
-
-    print('conv4', np.shape(y1))
 
     # Channel 1 - Conv Net Layer 5
     x2 = Concatenate()([x1, y1])
@@ -89,8 +77,6 @@ def two_streams():
     y2 = Concatenate()([x1, y1])
     y2 = Conv2D(128, (3, 3), strides=(1, 1), padding='same')(y2)
     y2 = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), data_format=data_format)(y2)
-
-    print('conv5', np.shape(y2))
 
     # # Channel 1 - Cov Net Layer 6
     x3 = Multiply()([x2, y2])
@@ -104,8 +90,6 @@ def two_streams():
     y3 = Dense(2048, activation='relu')(y3)
     y3 = Dropout(dropout)(y3)
 
-    print('conv6', np.shape(y3))
-
     # Channel 1 - Cov Net Layer 7
     x4 = Multiply()([x3, y3])
     x4 = Dense(2048, activation='relu')(x4)
@@ -115,8 +99,6 @@ def two_streams():
     y4 = Multiply()([x3, y3])
     y4 = Dense(2048, activation='relu')(y4)
     y4 = Dropout(dropout)(y4)
-
-    print('conv7', np.shape(y4))
 
     # Channel 1 - Cov Net Layer 8
     x5 = Multiply()([x4, y4])
@@ -128,10 +110,8 @@ def two_streams():
     y5 = Dense(2048, activation='relu')(y5)
     y5 = Dropout(dropout)(y5)
 
-    print('conv8', np.shape(y5))
-
     # Final Channel - Cov Net 9
     xy = Multiply()([x5, y5])
     xy = Dense(output_dim=num_classes, activation='softmax')(xy)
 
-    return xy, img_input, input_shape, data_format
+    return xy, img_input, input_shape
