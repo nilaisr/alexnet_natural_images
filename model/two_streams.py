@@ -35,7 +35,7 @@ def two_streams():
 
     data_format = 'channels_last'
     concat_axis = 3
-    input_shape = (227, 227, 3)  # 3 - Number of RGB Colours
+    input_shape = (224, 224, 3)  # 3 - Number of RGB Colours
 
     img_input = Input(shape=input_shape)
 
@@ -56,28 +56,28 @@ def two_streams():
     print('conv1', np.shape(y))
 
     # Channel 1 - Conv Net Layer 2
-    x = conv2D_bn(x, 48, 55, 55, strides=(1, 1), padding='same')
+    x = conv2D_bn(x, 48, 5, 5, strides=(1, 1), padding='same')
     x = MaxPooling2D(pool_size=(2, 2), strides=(2, 2), data_format=data_format)(x)
     x = ZeroPadding2D(padding=(1, 1), data_format=data_format)(x)
 
     print('conv2', np.shape(x))
 
     # Channel 2 - Conv Net Layer 2
-    y = conv2D_bn(y, 48, 55, 55, strides=(1, 1), padding='same')
+    y = conv2D_bn(y, 48, 5, 5, strides=(1, 1), padding='same')
     y = MaxPooling2D(pool_size=(2, 2), strides=(2, 2), data_format=data_format)(y)
     y = ZeroPadding2D(padding=(1, 1), data_format=data_format)(y)
 
     print('conv2', np.shape(y))
 
     # Channel 1 - Conv Net Layer 3
-    x = conv2D_bn(x, 128, 27, 27, strides=(1, 1), padding='same')
+    x = conv2D_bn(x, 128, 3, 3, strides=(1, 1), padding='same')
     x = MaxPooling2D(pool_size=(2, 2), strides=(2, 2), data_format=data_format)(x)
     x = ZeroPadding2D(padding=(1, 1), data_format=data_format)(x)
 
     print('conv3', np.shape(x))
 
     # Channel 2 - Conv Net Layer 3
-    y = conv2D_bn(y, 128, 27, 27, strides=(1, 1), padding='same')
+    y = conv2D_bn(y, 128, 3, 3, strides=(1, 1), padding='same')
     y = MaxPooling2D(pool_size=(2, 2), strides=(2, 2), data_format=data_format)(y)
     y = ZeroPadding2D(padding=(1, 1), data_format=data_format)(y)
 
@@ -86,21 +86,21 @@ def two_streams():
     # Channel 1 - Conv Net Layer 4
     x1 = Concatenate()([x, y])
     x1 = ZeroPadding2D(padding=(1, 1), data_format=data_format)(x1)
-    x1 = conv2D_bn(x1, 192, 13, 13, strides=(1, 1), padding='same')
+    x1 = conv2D_bn(x1, 192, 3, 3, strides=(1, 1), padding='same')
 
     print('conv4', np.shape(x1))
 
     # Channel 2 - Conv Net Layer 4
     y1 = Concatenate()([x, y])
     y1 = ZeroPadding2D(padding=(1, 1), data_format=data_format)(y1)
-    y1 = conv2D_bn(y1, 192, 13, 13, strides=(1, 1), padding='same')
+    y1 = conv2D_bn(y1, 192, 3, 3, strides=(1, 1), padding='same')
 
     print('conv4', np.shape(y1))
 
     # Channel 1 - Conv Net Layer 5
     x2 = Concatenate()([x1, y1])
     x2 = ZeroPadding2D(padding=(1, 1), data_format=data_format)(x2)
-    x2 = conv2D_bn(x2, 192, 13, 13, strides=(1, 1), padding='same')
+    x2 = conv2D_bn(x2, 192, 3, 3, strides=(1, 1), padding='same')
 
     print('conv5', np.shape(x2))
 
