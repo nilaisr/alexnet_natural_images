@@ -42,17 +42,17 @@ def two_streams_rgb():
         target_size=(input_size, input_size),
         classes=classes_train)
 
-    print(train_generator.data_format, train_generator.image_shape)
-
     validation_generator = test_datagen.flow_from_directory(
         dataset_test,
         target_size=(input_size, input_size),
         classes=classes_test)
 
-    x, im_input, input_shape = two_streams()
+    output, im_input, input_shape = two_streams()
 
     model = Model(inputs=rgb2pca(im_input),
-                  outputs=x)
+                  outputs=output)
+
+    print(model.summary())
 
     opt = optimizers.SGD(lr=0.01, decay=0.0005, momentum=0.9)
     model.compile(optimizer=opt,

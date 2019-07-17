@@ -100,18 +100,8 @@ def two_streams():
     y4 = Dense(2048, activation='relu')(y4)
     y4 = Dropout(dropout)(y4)
 
-    # # Channel 1 - Cov Net Layer 8
-    # x5 = Multiply()([x4, y4])
-    # x5 = Dense(2048, activation='relu')(x5)
-    # x5 = Dropout(dropout)(x5)
-    #
-    # # Channel 2 - Cov Net Layer 8
-    # y5 = Multiply()([x4, y4])
-    # y5 = Dense(2048, activation='relu')(y5)
-    # y5 = Dropout(dropout)(y5)
-
     # Final Channel - Cov Net 9
     xy = Multiply()([x4, y4])
-    output = Dense(output_dim=num_classes, activation='softmax')(xy)
+    output = Dense(num_classes, activation='softmax')(xy)
 
     return output, img_input, input_shape
