@@ -42,42 +42,42 @@ def two_streams():
     print(np.shape(img_input))
 
     # Channel 1 - Conv Net Layer 1
-    x = conv2D_bn(img_input, 3, 11, 11, strides=(4, 4), padding='same')
+    x = conv2D_bn(img_input, 48, 11, 11, strides=(4, 4), padding='same')
     x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), data_format=data_format)(x)
     # x = ZeroPadding2D(padding=(1, 1), data_format=data_format)(x)
 
     print('conv1', np.shape(x))
 
     # Channel 2 - Conv Net Layer 1
-    y = conv2D_bn(img_input, 3, 11, 11, strides=(4, 4), padding='same')
+    y = conv2D_bn(img_input, 48, 11, 11, strides=(4, 4), padding='same')
     y = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), data_format=data_format)(y)
     # y = ZeroPadding2D(padding=(1, 1), data_format=data_format)(y)
 
     print('conv1', np.shape(y))
 
     # Channel 1 - Conv Net Layer 2
-    x = conv2D_bn(x, 48, 5, 5, strides=(1, 1), padding='same')
+    x = conv2D_bn(x, 128, 5, 5, strides=(1, 1), padding='same')
     x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), data_format=data_format)(x)
     x = ZeroPadding2D(padding=(2, 2), data_format=data_format)(x)
 
     print('conv2', np.shape(x))
 
     # Channel 2 - Conv Net Layer 2
-    y = conv2D_bn(y, 48, 5, 5, strides=(1, 1), padding='same')
+    y = conv2D_bn(y, 128, 5, 5, strides=(1, 1), padding='same')
     y = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), data_format=data_format)(y)
     y = ZeroPadding2D(padding=(2, 2), data_format=data_format)(y)
 
     print('conv2', np.shape(y))
 
     # Channel 1 - Conv Net Layer 3
-    x = Conv2D(128, (3, 3), strides=(1, 1), padding='same')(x)
+    x = Conv2D(192, (3, 3), strides=(1, 1), padding='same')(x)
     # x = MaxPooling2D(pool_size=(2, 2), strides=(2, 2), data_format=data_format)(x)
     x = ZeroPadding2D(padding=(1, 1), data_format=data_format)(x)
 
     print('conv3', np.shape(x))
 
     # Channel 2 - Conv Net Layer 3
-    y = Conv2D(128, (3, 3), strides=(1, 1), padding='same')(y)
+    y = Conv2D(192, (3, 3), strides=(1, 1), padding='same')(y)
     # y = MaxPooling2D(pool_size=(2, 2), strides=(2, 2), data_format=data_format)(y)
     y = ZeroPadding2D(padding=(1, 1), data_format=data_format)(y)
 
@@ -99,7 +99,7 @@ def two_streams():
 
     # Channel 1 - Conv Net Layer 5
     x2 = Concatenate()([x1, y1])
-    x2 = Conv2D(192, (3, 3), strides=(1, 1), padding='same')(x2)
+    x2 = Conv2D(128, (3, 3), strides=(1, 1), padding='same')(x2)
     x2 = ZeroPadding2D(padding=(1, 1), data_format=data_format)(x2)
     x2 = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), data_format=data_format)(x2)
 
@@ -107,7 +107,7 @@ def two_streams():
 
     # Channel 2 - Conv Net Layer 5
     y2 = Concatenate()([x1, y1])
-    y2 = Conv2D(192, (3, 3), strides=(1, 1), padding='same')(y2)
+    y2 = Conv2D(128, (3, 3), strides=(1, 1), padding='same')(y2)
     y2 = ZeroPadding2D(padding=(1, 1), data_format=data_format)(y2)
     y2 = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), data_format=data_format)(y2)
 
