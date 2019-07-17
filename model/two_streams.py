@@ -102,6 +102,7 @@ def two_streams():
 
     # Final Channel - Cov Net 9
     xy = Multiply()([x4, y4])
+    print(np.shape(xy))
     output = Dense(num_classes, activation='softmax')(xy)
 
     return output, img_input, input_shape
