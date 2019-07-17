@@ -15,6 +15,8 @@ def two_streams_rgb():
     save_dir = '/home/nsallent/output/saved_models/'
     model_name = 'two_streams_rgb'
 
+    input_size = 224
+
     classes_train = []
 
     for folder in listdir(dataset_train):
@@ -37,12 +39,12 @@ def two_streams_rgb():
 
     train_generator = train_datagen.flow_from_directory(
         dataset_train,
-        target_size=(227, 227),
+        target_size=(input_size, input_size),
         classes=classes_train)
 
     validation_generator = test_datagen.flow_from_directory(
         dataset_test,
-        target_size=(227, 227),
+        target_size=(input_size, input_size),
         classes=classes_test)
 
     x, im_input, input_shape, data_format = two_streams()
