@@ -47,7 +47,7 @@ def two_streams_rgb():
         target_size=(input_size, input_size),
         classes=classes_test)
 
-    x, im_input, input_shape, data_format = two_streams()
+    x, im_input, input_shape = two_streams()
 
     print(type(x))
 
