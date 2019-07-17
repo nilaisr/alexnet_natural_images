@@ -49,8 +49,6 @@ def two_streams_rgb():
 
     x, im_input, input_shape = two_streams()
 
-    print(type(x))
-
     model = Model(inputs=rgb2pca(im_input),
                   outputs=x)
 
