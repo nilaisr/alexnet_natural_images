@@ -51,8 +51,8 @@ def two_streams_rgb():
 
     print(type(x))
 
-    model = Model(input=rgb2pca(im_input),
-                  output=[x])
+    model = Model(inputs=rgb2pca(im_input),
+                  outputs=x)
 
     opt = optimizers.SGD(lr=0.01, decay=0.0005, momentum=0.9)
     model.compile(optimizer=opt,
