@@ -20,7 +20,7 @@ def conv2D_bn(x, filters, num_row, num_col, strides=(1, 1), padding='same', name
     Returns:
         Output tensor after applying `Conv2D` and `BatchNormalization`.
     """
-    bn_axis = 1
+    bn_axis = 3
     # bn_axis = 3
     x = Conv2D(filters, (num_row, num_col), strides=strides, padding=padding)(x)
     x = BatchNormalization(axis=bn_axis)(x)
