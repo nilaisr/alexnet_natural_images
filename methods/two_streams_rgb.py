@@ -40,12 +40,12 @@ def two_streams_rgb():
     train_generator = train_datagen.flow_from_directory(
         dataset_train,
         target_size=(input_size, input_size),
-        classes=classes_train)
+        classes=classes_train[:3])
 
     validation_generator = test_datagen.flow_from_directory(
         dataset_test,
         target_size=(input_size, input_size),
-        classes=classes_test)
+        classes=classes_test[:3])
 
     output, im_input, input_shape = two_streams()
 
@@ -60,10 +60,10 @@ def two_streams_rgb():
 
     model.fit_generator(
         train_generator,
-        steps_per_epoch=2000,
+        steps_per_epoch=20,
         epochs=50,
         validation_data=validation_generator,
-        validation_steps=800)
+        validation_steps=80)
 
     # Save model and weights
     if not isdir(save_dir):
