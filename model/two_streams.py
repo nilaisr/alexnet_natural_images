@@ -28,7 +28,7 @@ def conv2D_bn(x, filters, num_row, num_col, strides=(1, 1), padding='same', name
 
 
 def two_streams():
-    num_classes = 3  # number of classes
+    num_classes = 35  # number of classes
     dropout = 0.5
 
     data_format = 'channels_last'
@@ -102,7 +102,6 @@ def two_streams():
 
     # Final Channel - Cov Net 9
     xy = Multiply()([x4, y4])
-    print(np.shape(xy))
     output = Dense(num_classes, activation='softmax')(xy)
 
     return output, img_input, input_shape

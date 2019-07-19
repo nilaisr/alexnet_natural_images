@@ -1,6 +1,5 @@
 from keras.preprocessing.image import ImageDataGenerator
-from keras.models import Model
-from keras import optimizers
+from keras import Model, optimizers
 from sklearn.preprocessing import MinMaxScaler
 from os.path import join, isdir
 from os import makedirs, listdir
@@ -52,11 +51,11 @@ def two_streams_rgb():
 
     train_generator = train_datagen.flow_from_directory(dataset_train,
                                                         target_size=(input_size, input_size),
-                                                        classes=classes_train[:3])
+                                                        classes=classes_train[:35])
 
     validation_generator = test_datagen.flow_from_directory(dataset_test,
                                                             target_size=(input_size, input_size),
-                                                            classes=classes_test[:3])
+                                                            classes=classes_test[:35])
 
     output, im_input, input_shape = two_streams()
 
