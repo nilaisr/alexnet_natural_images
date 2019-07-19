@@ -34,6 +34,7 @@ def two_streams_rgb():
     def color_transformation(image):
         image = np.array(image)
         pca_image = rgb2pca(image)
+        print(type(pca_image),pca_image.shape)
         return Image.fromarray(pca_image)
 
     train_datagen = ImageDataGenerator(rescale=1. / 255,
