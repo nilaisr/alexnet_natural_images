@@ -68,13 +68,11 @@ def two_streams_rgb():
     opt = optimizers.SGD(lr=0.01, decay=0.0005, momentum=0.9)
     model.compile(optimizer=opt, loss='categorical_crossentropy')
 
-    print(validation_generator[0].count(), validation_generator.batch_size)
-
     model.fit_generator(train_generator,
                         steps_per_epoch=20,
                         steps=20,
                         epochs=50,
-                        validation_steps=(validation_generator[0].count() // validation_generator.batch_size),
+                        validation_steps=800,
                         validation_data=validation_generator)
 
     # Save model and weights
