@@ -1,12 +1,11 @@
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Model
 from keras import optimizers
-from sklearn.preprocessing import minmax_scale
+from sklearn.preprocessing import MinMaxScaler
 from os.path import join, isdir
 from os import makedirs, listdir
 from PIL import Image
 import numpy as np
-import cv2
 
 from model import two_streams
 from methods import rgb2pca
@@ -35,13 +34,11 @@ def two_streams_rgb():
 
     def color_transformation(image):
         image = np.array(image)
-        print(type(image), image.shape, np.amax(image), np.amin(image))
         pca_image = rgb2pca(image)
-        pca_image = minmax_scale(pca_image, (1, 255))
-        print(type(pca_image), pca_image.shape, np.amax(pca_image), np.amin(pca_image))
-        hsv_image = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
-        print(type(hsv_image), hsv_image.shape, np.amax(hsv_image), np.amin(hsv_image))
+        sc = MinMaxScaler()
+        sc.fit_transform(pca_image)
 
+        print(type(pca_image), pca_image.shape, np.amax(pca_image), np.amin(pca_image))
         return Image.fromarray(pca_image)
 
     train_datagen = ImageDataGenerator(rescale=1. / 255,
