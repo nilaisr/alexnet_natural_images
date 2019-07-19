@@ -40,12 +40,14 @@ def two_streams_rgb():
     train_generator = train_datagen.flow_from_directory(
         dataset_train,
         target_size=(input_size, input_size),
-        classes=classes_train[:3])
+        classes=classes_train[:3],
+        class_mode='categorical')
 
     validation_generator = test_datagen.flow_from_directory(
         dataset_test,
         target_size=(input_size, input_size),
-        classes=classes_test[:3])
+        classes=classes_test[:3],
+        class_mode='categorical')
 
     output, im_input, input_shape = two_streams()
 
