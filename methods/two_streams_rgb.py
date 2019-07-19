@@ -37,7 +37,7 @@ def two_streams_rgb():
         pca_image = rgb2pca(image)
         scalers = {}
         for i in range(pca_image.shape[0]):
-            scalers[i] = MinMaxScaler((0,255))
+            scalers[i] = MinMaxScaler((0, 255))
             pca_image[i, :, :] = scalers[i].fit_transform(pca_image[i, :, :])
         return Image.fromarray(pca_image.astype('uint8'))
 
@@ -72,7 +72,7 @@ def two_streams_rgb():
                         steps_per_epoch=20,
                         steps=20,
                         epochs=50,
-                        validation_steps=validation_generator[0].count() / validation_generator.batch_size,
+                        validation_steps=(validation_generator[0].count() // validation_generator.batch_size),
                         validation_data=validation_generator)
 
     # Save model and weights
