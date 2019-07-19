@@ -3,6 +3,8 @@ from keras.models import Model
 from keras import optimizers
 from os.path import join, isdir
 from os import makedirs, listdir
+from PIL import Image
+import numpy as np
 
 from model import two_streams
 from methods import rgb2pca
@@ -29,13 +31,19 @@ def two_streams_rgb():
         if folder in classes_values:
             classes_test.append(folder)
 
-    train_datagen = ImageDataGenerator(
-        rescale=1. / 255,
-        shear_range=0.2,
-        zoom_range=0.2,
-        horizontal_flip=True)
+    def color_transformation(image):
+        image = np.array(image)
+        pca_image = rgb2pca(image)
+        return Image.fromarray(pca_image)
 
-    test_datagen = ImageDataGenerator(rescale=1. / 255)
+    train_datagen = ImageDataGenerator(rescale=1. / 255,
+                                       shear_range=0.2,
+                                       zoom_range=0.2,
+                                       horizontal_flip=True,
+                                       preprocessing_function=color_transformation)
+
+    test_datagen = ImageDataGenerator(rescale=1. / 255,
+                                      preprocessing_function=color_transformation)
 
     train_generator = train_datagen.flow_from_directory(
         dataset_train,
@@ -52,8 +60,6 @@ def two_streams_rgb():
     validation_generator[0] = [rgb2pca(x) for x in validation_generator[0]]
 
     output, im_input, input_shape = two_streams()
-
-    ## TO-DO: PUT PREPROCESS OF IMAGES!!!!!
 
     model = Model(inputs=im_input,
                   outputs=output)
