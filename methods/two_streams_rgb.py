@@ -37,7 +37,7 @@ def two_streams_rgb():
         pca_image = rgb2pca(image)
         scalers = {}
         for i in range(pca_image.shape[0]):
-            scalers[i] = MinMaxScaler()
+            scalers[i] = MinMaxScaler((0,255))
             pca_image[i, :, :] = scalers[i].fit_transform(pca_image[i, :, :])
 
         print(type(pca_image), pca_image.shape, np.amax(pca_image), np.amin(pca_image))
