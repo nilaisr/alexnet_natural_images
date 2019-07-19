@@ -5,6 +5,7 @@ from os.path import join, isdir
 from os import makedirs, listdir
 from PIL import Image
 import numpy as np
+import cv2
 
 from model import two_streams
 from methods import rgb2pca
@@ -34,7 +35,10 @@ def two_streams_rgb():
     def color_transformation(image):
         image = np.array(image)
         pca_image = rgb2pca(image)
-        print(type(pca_image),pca_image.shape)
+        print(type(pca_image), pca_image.shape, np.amax(pca_image), np.amin(pca_image))
+        hsv_image = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
+        print(type(hsv_image), hsv_image.shape, np.amax(hsv_image), np.amin(hsv_image))
+
         return Image.fromarray(pca_image)
 
     train_datagen = ImageDataGenerator(rescale=1. / 255,
