@@ -35,8 +35,10 @@ def two_streams_rgb():
     def color_transformation(image):
         image = np.array(image)
         pca_image = rgb2pca(image)
-        sc = MinMaxScaler()
-        sc.fit_transform(pca_image)
+        scalers = {}
+        for i in range(pca_image.shape[0]):
+            scalers[i] = MinMaxScaler()
+            pca_image[i, :, :] = scalers[i].fit_transform(pca_image[i, :, :])
 
         print(type(pca_image), pca_image.shape, np.amax(pca_image), np.amin(pca_image))
         return Image.fromarray(pca_image)
