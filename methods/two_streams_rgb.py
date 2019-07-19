@@ -73,6 +73,7 @@ def two_streams_rgb():
 
     model.fit_generator(train_generator,
                         steps_per_epoch=20,
+                        steps=20,
                         epochs=50,
                         validation_steps=validation_generator[0].count() / validation_generator.batch_size,
                         validation_data=validation_generator)
