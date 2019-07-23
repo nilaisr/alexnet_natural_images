@@ -6,16 +6,16 @@ from os import makedirs, listdir
 from PIL import Image
 import numpy as np
 
-from model import two_streams
+from model import three_streams
 from methods import rgb2pca
 from dataset import *
 
 
-def two_streams_rgb():
+def three_streams_rgb():
     dataset_train = '/home/cic/datasets/ImageNet/train/'
     dataset_test = '/home/cic/datasets/ImageNet/validation/'
     save_dir = '/home/nsallent/output/saved_models/'
-    model_name = 'two_streams_rgb'
+    model_name = 'three_streams_rgb'
 
     input_size = 224
 
@@ -46,8 +46,8 @@ def two_streams_rgb():
                                        horizontal_flip=True,
                                        preprocessing_function=color_transformation)
 
-    test_datagen = ImageDataGenerator(rescale=1. / 255)
-                                      # preprocessing_function=color_transformation)
+    test_datagen = ImageDataGenerator(rescale=1. / 255,
+                                      preprocessing_function=color_transformation)
 
     train_generator = train_datagen.flow_from_directory(dataset_train,
                                                         target_size=(input_size, input_size),
@@ -57,7 +57,7 @@ def two_streams_rgb():
                                                             target_size=(input_size, input_size),
                                                             classes=classes_test[:35])
 
-    output, im_input, input_shape = two_streams()
+    output, im_input, input_shape = three_streams()
 
     model = Model(inputs=im_input,
                   outputs=output)
