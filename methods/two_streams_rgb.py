@@ -69,9 +69,7 @@ def two_streams_rgb():
 
     model.fit_generator(train_generator,
                         steps_per_epoch=20,
-                        epochs=50,
-                        validation_steps=800,
-                        validation_data=validation_generator)
+                        epochs=50)
 
     # Save model and weights
     if not isdir(save_dir):
