@@ -66,7 +66,7 @@ def two_streams_rgb():
     print(model.summary())
 
     opt = optimizers.SGD(lr=0.001, decay=0.00005, momentum=0.9)
-    model.compile(optimizer=opt, loss='categorical_crossentropy', metrics='categorical_accuracy')
+    model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['categorical_accuracy'])
 
     model.fit_generator(train_generator,
                         steps_per_epoch=20,
