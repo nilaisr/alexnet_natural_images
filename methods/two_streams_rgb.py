@@ -38,7 +38,7 @@ def two_streams_rgb():
         for i in range(pca_image.shape[0]):
             scalers[i] = MinMaxScaler((0, 255))
             pca_image[i, :, :] = scalers[i].fit_transform(pca_image[i, :, :])
-        return Image.fromarray(pca_image.astype('uint8'))
+        return pca_image.astype('uint8')
 
     train_datagen = ImageDataGenerator(rescale=1. / 255,
                                        shear_range=0.2,
@@ -46,8 +46,8 @@ def two_streams_rgb():
                                        horizontal_flip=True,
                                        preprocessing_function=color_transformation)
 
-    test_datagen = ImageDataGenerator(rescale=1. / 255)
-                                      # preprocessing_function=color_transformation)
+    test_datagen = ImageDataGenerator(rescale=1. / 255,
+                                      preprocessing_function=color_transformation)
 
     train_generator = train_datagen.flow_from_directory(dataset_train,
                                                         target_size=(input_size, input_size),
