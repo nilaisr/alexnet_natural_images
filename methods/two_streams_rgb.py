@@ -65,12 +65,13 @@ def two_streams_rgb():
 
     print(model.summary())
 
-    opt = optimizers.SGD(lr=0.01, decay=0.0005, momentum=0.9)
+    opt = optimizers.SGD(lr=0.001, decay=0.00005, momentum=0.9)
     model.compile(optimizer=opt, loss='categorical_crossentropy')
 
     model.fit_generator(train_generator,
                         steps_per_epoch=20,
-                        epochs=50)
+                        epochs=50,
+                        shuffle='batch')
 
     # Save model and weights
     if not isdir(save_dir):
