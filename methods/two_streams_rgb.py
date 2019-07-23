@@ -3,7 +3,6 @@ from keras import Model, optimizers
 from sklearn.preprocessing import MinMaxScaler
 from os.path import join, isdir
 from os import makedirs, listdir
-from PIL import Image
 import numpy as np
 
 from model import two_streams
@@ -52,11 +51,11 @@ def two_streams_rgb():
 
     train_generator = train_datagen.flow_from_directory(dataset_train,
                                                         target_size=(input_size, input_size),
-                                                        classes=classes_train[:35])
+                                                        classes=classes_train)
 
     validation_generator = test_datagen.flow_from_directory(dataset_test,
                                                             target_size=(input_size, input_size),
-                                                            classes=classes_test[:35])
+                                                            classes=classes_test)
 
     output, im_input, input_shape = two_streams()
 
@@ -65,7 +64,7 @@ def two_streams_rgb():
 
     print(model.summary())
 
-    opt = optimizers.SGD(lr=0.001, decay=0.00005, momentum=0.9)
+    opt = optimizers.SGD(lr=0.001, decay=0.0005, momentum=0.9)
     model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['categorical_accuracy'])
 
     model.fit_generator(train_generator,
