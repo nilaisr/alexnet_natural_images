@@ -32,17 +32,20 @@ def three_streams():
     input_shape = (224, 224, 3)  # 3 - Number of RGB Colours
 
     img_input = Input(shape=input_shape)
+    chanel1_input = np.repeat(img_input[:, :, 0:1], 3, axis=2)
+    chanel2_input = np.repeat(img_input[:, :, 1:2], 3, axis=2)
+    chanel3_input = np.repeat(img_input[:, :, 2:], 3, axis=2)
 
     # Channel 1 - Conv Net Layer 1
-    x = conv2D_bn(img_input, 32, 11, 11, strides=(4, 4), padding='same')
+    x = conv2D_bn(chanel1_input, 32, 11, 11, strides=(4, 4), padding='same')
     x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), data_format=data_format)(x)
 
     # Channel 2 - Conv Net Layer 1
-    y = conv2D_bn(img_input, 32, 11, 11, strides=(4, 4), padding='same')
+    y = conv2D_bn(chanel2_input, 32, 11, 11, strides=(4, 4), padding='same')
     y = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), data_format=data_format)(y)
 
     # Channel 3 - Conv Net Layer 1
-    z = conv2D_bn(img_input, 32, 11, 11, strides=(4, 4), padding='same')
+    z = conv2D_bn(chanel3_input, 32, 11, 11, strides=(4, 4), padding='same')
     z = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), data_format=data_format)(z)
 
     # Channel 1 - Conv Net Layer 2
