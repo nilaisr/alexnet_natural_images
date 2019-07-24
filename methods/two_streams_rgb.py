@@ -1,5 +1,6 @@
 from keras.preprocessing.image import ImageDataGenerator
 from keras import Model, optimizers
+from keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
 from sklearn.preprocessing import MinMaxScaler
 from os.path import join, isdir
 from os import makedirs, listdir
@@ -43,7 +44,6 @@ def two_streams_rgb():
         return pca_image
 
     train_datagen = ImageDataGenerator(rescale=1. / 255,
-                                       shear_range=0.2,
                                        zoom_range=0.2,
                                        horizontal_flip=True,
                                        preprocessing_function=color_transformation)
@@ -70,18 +70,25 @@ def two_streams_rgb():
 
     num_train_samples = train_generator.samples
     num_test_samples = validation_generator.samples
-    train_steps_per_epoch = math.ceil(num_train_samples/batch_size)
-    test_steps_per_epoch = math.ceil(num_test_samples/batch_size)
+    train_steps_per_epoch = math.ceil(num_train_samples/(batch_size*25))
+    test_steps_per_epoch = math.ceil(num_test_samples/(batch_size*25))
 
     opt = optimizers.SGD(lr=0.01, decay=0.0005, momentum=0.9)
     model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['categorical_accuracy'])
 
+    checkpointer = ModelCheckpoint(filepath='/tmp/weights.hdf5', verbose=1, save_best_only=True)
+    reduceLRPlateau = ReduceLROnPlateau(monitor='categorical_crossentropy', factor=0.1, patience=10, verbose=0,
+                                        mode='auto', min_delta=0.0001, cooldown=0, min_lr=0)
+    earlystopping = EarlyStopping(monitor='categorical_crossentropy', min_delta=0, patience=0, verbose=0, mode='auto',
+                                  baseline=None, restore_best_weights=False)
+
     model.fit_generator(train_generator,
                         steps_per_epoch=train_steps_per_epoch,
-                        epochs=50,
+                        epochs=65,
                         shuffle='batch',
                         validation_data=validation_generator,
-                        validation_steps=test_steps_per_epoch)
+                        validation_steps=test_steps_per_epoch,
+                        callbacks=[checkpointer, reduceLRPlateau, earlystopping])
 
     # Save model and weights
     if not isdir(save_dir):
