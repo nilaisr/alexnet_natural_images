@@ -17,6 +17,7 @@ def two_streams_rgb():
     model_name = 'two_streams_rgb'
 
     input_size = 224
+    batch_size = 128
 
     classes_train = []
 
@@ -51,10 +52,12 @@ def two_streams_rgb():
 
     train_generator = train_datagen.flow_from_directory(dataset_train,
                                                         target_size=(input_size, input_size),
+                                                        batch_size=batch_size,
                                                         classes=classes_train)
 
     validation_generator = test_datagen.flow_from_directory(dataset_test,
                                                             target_size=(input_size, input_size),
+                                                            batch_size=batch_size,
                                                             classes=classes_test)
 
     output, im_input, input_shape = two_streams()
@@ -64,12 +67,17 @@ def two_streams_rgb():
 
     print(model.summary())
 
+    num_class = train_generator.num_classes
+    print(num_class, train_generator.class_indices)
+    # num_train_samples = num_class.
+
     opt = optimizers.SGD(lr=0.001, decay=0.0005, momentum=0.9)
     model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['categorical_accuracy'])
 
     model.fit_generator(train_generator,
                         steps_per_epoch=20,
                         epochs=50,
+
                         shuffle='batch')
 
     # Save model and weights
