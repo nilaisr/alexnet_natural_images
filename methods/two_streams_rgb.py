@@ -18,7 +18,7 @@ def two_streams_rgb():
     model_name = 'two_streams_rgb'
 
     input_size = 224
-    batch_size = 128
+    batch_size = 256
 
     classes_train = []
 
@@ -73,7 +73,7 @@ def two_streams_rgb():
     train_steps_per_epoch = math.ceil(num_train_samples/batch_size)
     test_steps_per_epoch = math.ceil(num_test_samples/batch_size)
 
-    opt = optimizers.SGD(lr=0.001, decay=0.0005, momentum=0.9)
+    opt = optimizers.SGD(lr=0.01, decay=0.0005, momentum=0.9)
     model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['categorical_accuracy'])
 
     model.fit_generator(train_generator,
