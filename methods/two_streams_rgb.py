@@ -68,7 +68,7 @@ def two_streams_rgb():
     print(model.summary())
 
     num_class = train_generator.num_classes
-    print(num_class, train_generator.class_indices)
+    print(train_generator.classes, train_generator.samples)
     # num_train_samples = num_class.
 
     opt = optimizers.SGD(lr=0.001, decay=0.0005, momentum=0.9)
