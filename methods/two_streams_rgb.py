@@ -68,13 +68,15 @@ def two_streams_rgb():
 
     print(model.summary())
 
-    num_train_samples = train_generator.samples
-    num_test_samples = validation_generator.samples
-    train_steps_per_epoch = math.ceil(num_train_samples/(batch_size*25))
-    test_steps_per_epoch = math.ceil(num_test_samples/(batch_size*25))
+    # num_train_samples = train_generator.samples
+    # num_test_samples = validation_generator.samples
+    # train_steps_per_epoch = math.ceil(num_train_samples/(batch_size*25))
+    # test_steps_per_epoch = math.ceil(num_test_samples/(batch_size*25))
 
-    opt = optimizers.SGD(lr=0.01, decay=0.0005, momentum=0.9)
-    model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['categorical_accuracy'])
+    sgd = optimizers.SGD(lr=0.01, decay=0.0005, momentum=0.9)
+    adam = optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+
+    model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['categorical_accuracy'])
 
     checkpointer = ModelCheckpoint(filepath='/tmp/weights.hdf5', verbose=1, save_best_only=True)
     reduceLRPlateau = ReduceLROnPlateau(monitor='categorical_crossentropy', factor=0.1, patience=10, verbose=0,
@@ -83,11 +85,11 @@ def two_streams_rgb():
                                   baseline=None, restore_best_weights=False)
 
     model.fit_generator(train_generator,
-                        steps_per_epoch=train_steps_per_epoch,
+                        steps_per_epoch=70,
                         epochs=65,
                         shuffle='batch',
                         validation_data=validation_generator,
-                        validation_steps=test_steps_per_epoch,
+                        validation_steps=70,
                         callbacks=[checkpointer, reduceLRPlateau, earlystopping])
 
     # Save model and weights
