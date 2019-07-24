@@ -4,6 +4,7 @@ from sklearn.preprocessing import MinMaxScaler
 from os.path import join, isdir
 from os import makedirs, listdir
 import numpy as np
+import math
 
 from model import two_streams
 from methods import rgb2pca
@@ -67,18 +68,20 @@ def two_streams_rgb():
 
     print(model.summary())
 
-    num_class = train_generator.num_classes
-    print(train_generator.classes, train_generator.samples)
-    # num_train_samples = num_class.
+    num_train_samples = train_generator.samples
+    num_test_samples = validation_generator.samples
+    train_steps_per_epoch = math.ceil(num_train_samples/batch_size)
+    test_steps_per_epoch = math.ceil(num_test_samples/batch_size)
 
     opt = optimizers.SGD(lr=0.001, decay=0.0005, momentum=0.9)
     model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['categorical_accuracy'])
 
     model.fit_generator(train_generator,
-                        steps_per_epoch=20,
+                        steps_per_epoch=train_steps_per_epoch,
                         epochs=50,
-
-                        shuffle='batch')
+                        shuffle='batch',
+                        validation_data=validation_generator,
+                        validation_steps=test_steps_per_epoch)
 
     # Save model and weights
     if not isdir(save_dir):
