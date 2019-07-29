@@ -19,7 +19,7 @@ def two_streams_rgb():
     model_name = 'two_streams_rgb'
 
     input_size = 224
-    batch_size = 256
+    batch_size = 128
 
     classes_train = []
 
@@ -43,13 +43,9 @@ def two_streams_rgb():
         pca_image = np.around(pca_image)
         return pca_image
 
-    train_datagen = ImageDataGenerator(rescale=1. / 255,
-                                       zoom_range=0.2,
-                                       horizontal_flip=True,
-                                       preprocessing_function=color_transformation)
+    train_datagen = ImageDataGenerator(preprocessing_function=color_transformation)
 
-    test_datagen = ImageDataGenerator(rescale=1. / 255,
-                                      preprocessing_function=color_transformation)
+    test_datagen = ImageDataGenerator(preprocessing_function=color_transformation)
 
     train_generator = train_datagen.flow_from_directory(dataset_train,
                                                         target_size=(input_size, input_size),
@@ -86,7 +82,7 @@ def two_streams_rgb():
                                   baseline=None, restore_best_weights=False)
 
     model.fit_generator(train_generator,
-                        steps_per_epoch=70,
+                        steps_per_epoch=40,
                         epochs=65,
                         shuffle='batch',
                         validation_data=validation_generator,
