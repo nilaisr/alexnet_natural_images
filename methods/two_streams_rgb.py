@@ -82,12 +82,13 @@ def two_streams_rgb():
                                   baseline=None, restore_best_weights=False)
 
     model.fit_generator(train_generator,
-                        steps_per_epoch=40,
+                        steps_per_epoch=100,
                         epochs=65,
                         shuffle='batch',
                         validation_data=validation_generator,
                         validation_steps=70,
-                        callbacks=[checkpointer, reduceLRPlateau, earlystopping])
+                        callbacks=[checkpointer, reduceLRPlateau, earlystopping],
+                        use_multiprocessing=True)
 
     # Save model and weights
     if not isdir(save_dir):
