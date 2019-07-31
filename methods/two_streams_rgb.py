@@ -82,7 +82,7 @@ def two_streams_rgb():
                                   baseline=None, restore_best_weights=False)
 
     model.fit_generator(train_generator,
-                        steps_per_epoch=100,
+                        steps_per_epoch=500,
                         epochs=75,
                         shuffle='batch',
                         validation_data=validation_generator,
