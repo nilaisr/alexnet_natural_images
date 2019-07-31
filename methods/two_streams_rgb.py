@@ -19,7 +19,7 @@ def two_streams_rgb():
     model_name = 'two_streams_rgb'
 
     input_size = 224
-    batch_size = 128
+    batch_size = 512
 
     classes_train = []
 
@@ -83,7 +83,7 @@ def two_streams_rgb():
 
     model.fit_generator(train_generator,
                         steps_per_epoch=100,
-                        epochs=65,
+                        epochs=75,
                         shuffle='batch',
                         validation_data=validation_generator,
                         validation_steps=70,
