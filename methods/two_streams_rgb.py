@@ -73,7 +73,7 @@ def two_streams_rgb():
     adam = optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
     rmsp = optimizers.RMSprop(lr=0.001, rho=0.9, epsilon=None, decay=0.0)
 
-    model.compile(optimizer=rmsp, loss='categorical_crossentropy', metrics=['categorical_accuracy'])
+    model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['categorical_accuracy'])
 
     checkpointer = ModelCheckpoint(filepath='/tmp/weights.hdf5', verbose=1, save_best_only=True)
     reduceLRPlateau = ReduceLROnPlateau(monitor='categorical_crossentropy', factor=0.1, patience=10, verbose=0,
