@@ -29,7 +29,7 @@ def conv2D_bn(x, filters, num_row, num_col, strides=(1, 1), padding='same', weig
 
 
 def two_streams():
-    num_classes = 444  # number of classes
+    num_classes = 20#444  # number of classes
     dropout = 0.5
 
     data_format = 'channels_last'

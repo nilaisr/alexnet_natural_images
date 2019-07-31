@@ -50,12 +50,12 @@ def two_streams_rgb():
     train_generator = train_datagen.flow_from_directory(dataset_train,
                                                         target_size=(input_size, input_size),
                                                         batch_size=batch_size,
-                                                        classes=classes_train)
+                                                        classes=classes_train[:20])
 
     validation_generator = test_datagen.flow_from_directory(dataset_test,
                                                             target_size=(input_size, input_size),
                                                             batch_size=batch_size,
-                                                            classes=classes_test)
+                                                            classes=classes_test[:20])
 
     output, im_input, input_shape = two_streams()
 
@@ -64,9 +64,9 @@ def two_streams_rgb():
 
     print(model.summary())
 
-    # num_train_samples = train_generator.samples
+    num_train_samples = train_generator.samples
     # num_test_samples = validation_generator.samples
-    # train_steps_per_epoch = math.ceil(num_train_samples/(batch_size*25))
+    train_steps_per_epoch = min(math.ceil(num_train_samples/(batch_size)), 100)
     # test_steps_per_epoch = math.ceil(num_test_samples/(batch_size*25))
 
     sgd = optimizers.SGD(lr=0.01, decay=0.0005, momentum=0.9)
@@ -82,7 +82,7 @@ def two_streams_rgb():
                                   baseline=None, restore_best_weights=False)
 
     model.fit_generator(train_generator,
-                        steps_per_epoch=500,
+                        steps_per_epoch=train_steps_per_epoch,
                         epochs=75,
                         shuffle='batch',
                         validation_data=validation_generator,
