@@ -66,7 +66,7 @@ def two_streams_rgb():
 
     num_train_samples = train_generator.samples
     # num_test_samples = validation_generator.samples
-    train_steps_per_epoch = min(math.ceil(num_train_samples/(batch_size)), 100)
+    train_steps_per_epoch = min(math.ceil(num_train_samples/(batch_size)), 100)/5
     # test_steps_per_epoch = math.ceil(num_test_samples/(batch_size*25))
 
     sgd = optimizers.SGD(lr=0.01, decay=0.0005, momentum=0.9)
@@ -83,7 +83,7 @@ def two_streams_rgb():
 
     model.fit_generator(train_generator,
                         steps_per_epoch=train_steps_per_epoch,
-                        epochs=75,
+                        epochs=55,
                         shuffle='batch',
                         validation_data=validation_generator,
                         validation_steps=70,
